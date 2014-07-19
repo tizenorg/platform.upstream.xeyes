@@ -1,3 +1,5 @@
+%bcond_with x
+
 Summary: X.Org X11 applications
 Name: xeyes
 # NOTE: The package version should be set to the X11 major release from which
@@ -37,6 +39,10 @@ BuildRequires: libXxf86vm-devel
 
 Provides: xeyes
 
+%if !%{with x}
+ExclusiveArch:
+%endif
+
 %description
 A collection of common X Window System applications.
 
@@ -44,8 +50,8 @@ A collection of common X Window System applications.
 %setup -q
 
 %build
-%configure
-make
+%autogen --disable-static
+make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
